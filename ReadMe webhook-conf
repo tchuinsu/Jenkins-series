@@ -1,0 +1,84 @@
+To configure your Jenkins to connect to a GitHub webhook, follow these steps to enable automatic builds when changes are pushed to a GitHub repository:
+
+✅ Step 1: Install Required Jenkins Plugins
+Ensure the following plugins are installed:
+
+Git plugin
+
+GitHub plugin
+
+GitHub Integration Plugin (optional but useful)
+
+GitHub Branch Source Plugin
+
+Go to:
+Jenkins Dashboard → Manage Jenkins → Plugins → Available
+Search and install if not already present.
+
+✅ Step 2: Create Jenkins Job
+Go to Jenkins Dashboard → New Item
+
+Enter a name and choose:
+
+Freestyle project or
+
+Pipeline project (depending on your setup)
+
+Click OK
+
+✅ Step 3: Configure Source Code Management
+In your Jenkins job:
+
+Go to Configure
+
+Under Source Code Management, choose Git
+
+Paste your GitHub repository URL
+
+Provide credentials if it's private
+
+Example:
+https://github.com/your-username/your-repo.git
+
+✅ Step 4: Enable GitHub Webhook Trigger
+Scroll to Build Triggers
+
+Select: ✅ GitHub hook trigger for GITScm polling
+
+✅ Step 5: Configure Webhook in GitHub
+Go to your GitHub repository
+
+Click on Settings → Webhooks → Add webhook
+
+Set:
+
+Payload URL:
+http://<your-jenkins-domain>/github-webhook/
+
+Example (local Jenkins via ngrok):
+http://a1b2c3d4.ngrok.io/github-webhook/
+
+Content type: application/json
+
+Which events?: Choose Just the push event or more if needed
+
+Secret (optional): Can be added for security (make sure Jenkins and GitHub use the same)
+
+Click Add Webhook
+
+✅ Step 6: Test the Webhook
+Make a commit/push to your GitHub repo
+
+Go to GitHub → Webhooks → Recent Deliveries to see if the webhook fired
+
+Jenkins should automatically trigger the job if everything is set correctly
+
+🔐 Tips:
+If Jenkins is running locally, use ngrok to expose it temporarily to GitHub:
+
+yaml
+Copy
+Edit
+ngrok http 8080
+For security: Use HTTPS + authentication if exposing Jenkins publicly.
+
